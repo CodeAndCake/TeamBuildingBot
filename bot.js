@@ -2,12 +2,7 @@ var _ = require('underscore'),
 	Twitter = require('twitter'),
 	WordPOS = require('wordpos'),
 	MarkovChain = require('markovchain'),
-	config = require('./config') || process.env.config
-
-console.log(config)	
-
-/*
-	,
+	config = require('./config'),
 	twitterBot = new Twitter(config.keys),
 	wordpos = new WordPOS(),
 	chain = new MarkovChain(),
@@ -190,5 +185,3 @@ function getRandomElement (array)
 	var randomIndex = Math.floor(array.length * Math.random())
 	return array[randomIndex]
 }
-
-*/
