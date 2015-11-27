@@ -10,7 +10,7 @@
 
 ### Get started
 
-1. [Fork this repository](#fork-destination-box) and clone it to your computer.
+1. **Fork** this repository and *clone* it to your computer.
 * Go to [apps.twitter.com](https://apps.twitter.com) and create a **new app**.
 * Rename `RENAME_MEconfig.js` file: call it `config.js`
 * In `config.js` change `YOUR_TWITTER_APP_CONSUMER_KEY` and the other bits in capitals to your Twitter app's values 
