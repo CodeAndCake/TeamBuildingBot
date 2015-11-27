@@ -44,3 +44,10 @@ This bot takes in the latest tweets from a list of accounts (your team, possibly
 * In `config.js` change the Twitter usernames inside `users` to the ones you want to grab tweets from, for the bot to build sentences upon. You can add as many as you like.
 * Navigate to this folder in Terminal and then run `sudo npm install`.
 * Test the bot by running `node bot.js`.	
+
+### License
+
+[![](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0)
+
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License ](http://creativecommons.org/licenses/by-nc-sa/4.0)
+
