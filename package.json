@@ -1,0 +1,18 @@
+{
+  "name": "TeamBuildingBot",
+  "version": "0.1.1",
+  "description": "One Twitter bot to cohere your team",
+  "dependencies": {
+    "markovchain": "1.0.0",
+    "twitter": "1.2.5",
+    "underscore": "^1.8.3",
+    "wordpos": "0.1.15"
+  },
+  "devDependencies": {},
+  "author": "matteomenapace",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matteomenapace/TeamBuildingBot.git"
+  },
+  "license": "CC-BY-NC-4.0"
+}
