@@ -4,22 +4,22 @@
 
 -->
 
-# One Twitter bot to *cohere* your team
+# Automated motivational tweets for your team
 
-Automated motivational tweets for your team.
+It's all recycled! :recycle:
 
 ### WTF?
 
 A Twitter bot is, in lay(wo)man's terms, a computer program that tweets *automatically*. Following certain rules, the bot generates tweetable sentences and then pushes them to the Twitters via their [API](https://dev.twitter.com/rest/public).
 
-This bot takes in the latest tweets from a list of accounts (your team, possibly) and then produces a sentence that starts with **We**, followed by a *verb* and some other words. For example:
+This bot takes in the latest tweets from a list of accounts (your team, possibly) and then produces a sentence that starts with `We`, followed by a *verb* and some other words (all found within your team's tweeets). For example:
 
-* `We don't eliminate #poverty, #disease, and #automation`
 * `We emerge from 11am!`
 * `We improve the #Web…`
-* `We encrypt finished citizen #neverTooLate`
 * `We don't outsource through publication #ItSaysHere`
+* `We encrypt finished citizen #neverTooLate`
 * `We survive on success #PostCapitalism`
+* `We don't eliminate #poverty, #disease, and #automation`
 
 ### Get started
 
