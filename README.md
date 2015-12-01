@@ -43,7 +43,19 @@ This bot takes in the latest tweets from a list of accounts (your team, possibly
 	```
 * In `config.js` change the Twitter usernames inside `users` to the ones you want to grab tweets from, for the bot to build sentences upon. You can add as many as you like.
 * Navigate to this folder in Terminal and then run `sudo npm install`.
-* Test the bot by running `node bot.js`.	
+* Test the bot by running `node bot.js`.
+
+### Pushing your bot to Heroku	
+
+> Heroku (pronounced her-OH-koo) is a cloud application platform – a new way of building and deploying web apps. 
+
+This means that instead of running your bot from the Terminal on your computer, you can deploy to Heroku and it will tweet from there!
+
+1. Go to [Heroku](https://signup.heroku.com) and sign up for an account. 
+* When asked to specify your primary development language, pick `Node.js`
+*  	
+
+
 
 ### License
 
