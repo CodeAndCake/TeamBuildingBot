@@ -47,13 +47,39 @@ This bot takes in the latest tweets from a list of accounts (your team, possibly
 
 ### Pushing your bot to Heroku	
 
-> Heroku (pronounced her-OH-koo) is a cloud application platform – a new way of building and deploying web apps. 
+> Heroku (pronounced her-OH-koo) is a cloud application platform. 
 
-This means that instead of running your bot from the Terminal on your computer, you can deploy to Heroku and it will tweet from there!
+This means that instead of running your bot from the Terminal on your computer, you can deploy it to Heroku and it will tweet from there!
 
-1. Go to [Heroku](https://signup.heroku.com) and sign up for an account. 
+1. Go to [Heroku](https://signup.heroku.com) and sign up for a free account. 
 * When asked to specify your primary development language, pick `Node.js`
-*  	
+* Once you're signed up, and download the *Toolbelt*
+
+	![](https://cdn-images-1.medium.com/max/800/1*0sIWpZeqie3lPkm2gUWZYQ.png)
+* Open Terminal (or Command Prompt if you're on Windows), type `heroku` into it and press the `↲` (Enter) key.
+
+	This properly installs Heroku on your computer. You will see a window pop up that looks like this
+	
+	![](https://cdn-images-1.medium.com/max/800/1*bVNXZW8boBeyvCHHtgqyZA.png)
+	
+	Choose `Install`
+* Once the installation has finished, type `heroku login` and hit the `↲` (Enter) key.	
+* We're going to prep your bot's folder to send to Heroku
+
+	Type `cd`, hit space, then drag the folder from Finder into Terminal (`cd` stands for *change directory*) and press the `↲` (Enter) key.
+	
+	![](https://cdn-images-1.medium.com/max/800/1*odsH4AK_YBfleCX17AEfRA.png)
+* Type `heroku create` and hit 	`↲` (Enter).  
+  
+	Here, you're asking Heroku to create a space for Git to deliver your files to.
+	
+	Terminal should say `Git remote heroku added`.
+
+---
+
+- [ ] add local branch 
+- [ ] push 	
+
 
 
 
