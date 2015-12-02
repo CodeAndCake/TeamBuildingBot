@@ -155,7 +155,7 @@ function makeSentences()
 		if (isTweetable(sentence))
 		{
 			console.log('- ' + sentence)
-			// makeTweet(sentence)
+			makeTweet(sentence)
 		}
 	}
 }
