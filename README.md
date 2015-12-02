@@ -49,7 +49,7 @@ This bot takes in the latest tweets from a list of accounts (your team, possibly
 
 > Heroku (pronounced her-OH-koo) is a cloud application platform. 
 
-This means that instead of running your bot from the Terminal on your computer, you can deploy it to Heroku and it will tweet from there!
+This means that instead of running your bot from the Terminal on your computer, you can deploy it to Heroku and it will tweet from there, however many times you want (per hour, day, week..)!
 
 1. Go to [Heroku](https://signup.heroku.com) and sign up for a free account. 
 * When asked to specify your primary development language, pick `Node.js`
@@ -95,16 +95,24 @@ This means that instead of running your bot from the Terminal on your computer, 
 * And, for the almost final step, type in `heroku run node bot.js` and hit `↲` (Enter).
 	
 	You're now testing the bot by telling Heroku to run it. 	
+	If Terminal, after munching your `users` tells you something like `DONE!` followed by a sentence then it means it has tweeted! Go check out your bot's Twitter account and see for yourself.
+* Now, the whole thing about Heroku is that you can schedule how often you want it to get your bot to tweet, so you don't have to do it yourself.
 
+	Type in `heroku addons:create scheduler:standard`, hit `↲` (Enter), then `heroku addons:open scheduler`, and `↲` (Enter).
 	
-
-
----
-
-- [ ] add local branch 
-- [ ] push 	
-
-
+	If you have not added your card to Heroku, now's the time to do so. In fact, it will prompt you to do so.
+	
+	Once you've done that, type in `heroku addons:open scheduler` again, and Terminal will open this page
+	
+	![](https://cdn-images-1.medium.com/max/800/1*wkh3ViAUyfkXRdrte3t5bQ.png)
+	
+	Click `Add new job`.
+	
+	In the filed that starts with `$` type in `node bot.js`
+	
+	The rest is kind of self-explanatory (if you've got so far).	 
+	
+	Click `Save` and your bot is all set up! :tada:
 
 
 ### License
