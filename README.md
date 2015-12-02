@@ -86,6 +86,7 @@ This means that instead of running your bot from the Terminal on your computer, 
 	`git push heroku heroku:master`
 	
 	Terminal should start spitting out a lot of messages, starting from `Counting objects: 57, done.` and finishing with 
+	
 	```
 	remote: Verifying deploy... done.
 	To https://git.heroku.com/YOUR_HEROKU_NAME.git
