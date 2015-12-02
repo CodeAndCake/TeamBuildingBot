@@ -67,13 +67,37 @@ This means that instead of running your bot from the Terminal on your computer, 
 * We're going to prep your bot's folder to send to Heroku
 
 	Type `cd`, hit space, then drag the folder from Finder into Terminal (`cd` stands for *change directory*) and press the `↲` (Enter) key.
-	
-	![](https://cdn-images-1.medium.com/max/800/1*odsH4AK_YBfleCX17AEfRA.png)
 * Type `heroku create` and hit 	`↲` (Enter).  
   
 	Here, you're asking Heroku to create a space for Git to deliver your files to.
 	
 	Terminal should say `Git remote heroku added`.
+* <sup>**OPTIONAL**</sup> Let's create a separate branch for your bot on Heroku.   
+  
+	This will allow you to add your `config.js` file with all your secret Twitter info to a new `heroku` branch, whilst keeping the `master` branch clean and backed-up on GitHub.
+  
+	`git checkout -b heroku`
+	
+	Remove `config.js` from `.gitignore`
+	
+	`git commit -am "Config for Heroku"`
+* Now it's time to deploy your bot to Heroku!
+
+	`git push heroku heroku:master`
+	
+	Terminal should start spitting out a lot of messages, starting from `Counting objects: 57, done.` and finishing with 
+	```
+	remote: Verifying deploy... done.
+	To https://git.heroku.com/YOUR_HEROKU_NAME.git
+ 	* [new branch]      heroku -> master	```	
+ 	
+ 	This means that your bot is deployed. :ok_hand:
+* And, for the almost final step, type in `heroku run node bot.js` and hit `↲` (Enter).
+	
+	You're now testing the bot by telling Heroku to run it. 	
+
+	
+
 
 ---
 
