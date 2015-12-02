@@ -90,7 +90,8 @@ This means that instead of running your bot from the Terminal on your computer, 
 	```
 	remote: Verifying deploy... done.
 	To https://git.heroku.com/YOUR_HEROKU_NAME.git
- 	* [new branch]      heroku -> master	```	
+ 	* [new branch]      heroku -> master
+ 	```	
  	
  	This means that your bot is deployed. :ok_hand:
 * And, for the almost final step, type in `heroku run node bot.js` and hit `↲` (Enter).
@@ -99,11 +100,11 @@ This means that instead of running your bot from the Terminal on your computer, 
 	If Terminal, after munching your `users` tells you something like `DONE!` followed by a sentence then it means it has tweeted! Go check out your bot's Twitter account and see for yourself.
 * Now, the whole thing about Heroku is that you can schedule how often you want it to get your bot to tweet, so you don't have to do it yourself.
 
-	Type in `heroku addons:create scheduler:standard`, hit `↲` (Enter), then `heroku addons:open scheduler`, and `↲` (Enter).
+	Type in `heroku addons:create scheduler:standard` and hit `↲` (Enter).
 	
 	If you have not added your card to Heroku, now's the time to do so. In fact, it will prompt you to do so.
 	
-	Once you've done that, type in `heroku addons:open scheduler` again, and Terminal will open this page
+	Once you've done that, type in `heroku addons:open scheduler` and hit `↲` (Enter). Terminal will open this page
 	
 	![](https://cdn-images-1.medium.com/max/800/1*wkh3ViAUyfkXRdrte3t5bQ.png)
 	
@@ -111,7 +112,7 @@ This means that instead of running your bot from the Terminal on your computer, 
 	
 	In the filed that starts with `$` type in `node bot.js`
 	
-	The rest is kind of self-explanatory (if you've got so far).	 
+	The rest is kind of self-explanatory (if you've got so far!).	 
 	
 	Click `Save` and your bot is all set up! :tada:
 
