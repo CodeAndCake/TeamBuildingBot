@@ -23,6 +23,19 @@ This bot takes in the latest tweets from a list of accounts (your team, possibly
 
 ### Get started
 
+#### Stuff you need installed
+
+This bot is built with [Node.js](https://nodejs.org/) so before you get any further you need to install Node:
+
+1. Go to [nodejs.org](https://nodejs.org/en/download) and download the *installer* for your operating system.	
+* Install it..
+* To check if you have Node.js installed:  
+	
+	* In Terminal / CP, type `node -v` and press the `↲` (Enter) key.
+	* If Terminal / CP shows a number, like `v0.10.26` then it means you have version 0.10.26 installed. 
+
+#### OK, got everything installed
+
 1. **Fork** this repository and *clone* it to your computer.
 * Go to [apps.twitter.com](https://apps.twitter.com) and create a **new app**.
 * Rename `RENAME_MEconfig.js`: call it `config.js`.
