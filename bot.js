@@ -16,7 +16,8 @@ var _ = require('underscore'),
 		user_mentions: [],
 		media: [],
 		urls: []
-	}
+	},
+	charactersToRemove = config.charactersToRemove.split('')
 
 var twitterParameters = 
 {
@@ -101,7 +102,12 @@ function gotTweets(tweets)
 
 		// TEXT
 		// console.log(tweet.text)
-		var text = _(removeUrls(tweet.text)).unescape() // a bit of sanitation
+
+		var text = tweet.text  
+		// a bit of sanitation
+		text = _(text).unescape() // see http://underscorejs.org/#unescape 
+		text = removeUrls(text)
+		text = removeCharacters(text)
 		
 		chain.parse(text)
 
@@ -121,6 +127,16 @@ function gotTweets(tweets)
 function removeUrls(string)
 {
 	return string.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
+}
+
+function removeCharacters(string)
+{
+	charactersToRemove.forEach(function(character)
+	{
+		var regExp = new RegExp('\\' + character, 'gi')
+		string = string.replace(regExp, '')
+	})
+	return string
 }
 
 function makeSentences()

@@ -14,5 +14,6 @@ module.exports =
 		'AND_THIS',
 		'YOU_CAN_ADD_AS_MANY_AS_YOU_LIKE'
 	],
-	howManySentences: 3 // how many sentences to generate and tweet?
+	howManySentences: 1, // how many sentences to generate and tweet?
+	charactersToRemove: ',:;"()[]{}/' // all the characters that you don't want to see in the bot's tweets
 }
