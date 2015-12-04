@@ -25,11 +25,13 @@ This bot takes in the latest tweets from a list of accounts (your team, possibly
 
 #### Stuff you need installed
 
-This bot is built with [Node.js](https://nodejs.org/) so before you get any further you need to install Node:
+This bot is built with [Node.js](https://nodejs.org/) so before you get any further:
 
-1. Go to [nodejs.org](https://nodejs.org/en/download) and download the *installer* for your operating system.	
+1. Go to [nodejs.org](https://nodejs.org/en/download) and download the *installer* for your operating system.
+
+<!-- -->	
 * Install it..
-* To check if you have Node.js installed:  
+* To check if it's installed:  
 	
 	* In Terminal / CP, type `node -v` and press the `↲` (Enter) key.
 	* If Terminal / CP shows a number, like `v0.10.26` then it means you have version 0.10.26 installed. 
