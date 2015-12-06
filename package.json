@@ -3,7 +3,9 @@
   "version": "0.1.1",
   "description": "One Twitter bot to cohere your team",
   "dependencies": {
+    "is-plural": "^0.1.1",
     "markovchain": "1.0.0",
+    "plur": "^2.1.1",
     "twitter": "1.2.5",
     "underscore": "^1.8.3",
     "wordpos": "0.1.15"
