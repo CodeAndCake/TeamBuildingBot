@@ -1,10 +1,12 @@
 var _ = require('underscore'),
 	Twitter = require('twitter'),
 	WordPOS = require('wordpos'),
+	plur = require('plur'),
+	isPlural = require('is-plural'),
 	MarkovChain = require('markovchain'),
 	config = require('./config'),
 	twitterBot = new Twitter(config.keys),
-	wordpos = new WordPOS(),
+	wordpos = new WordPOS({stopwords: true}), // exclude stopwords
 	chain = new MarkovChain(),
 	bank = {
 		nouns: [],
@@ -17,35 +19,56 @@ var _ = require('underscore'),
 		media: [],
 		urls: []
 	},
-	charactersToRemove = config.charactersToRemove.split('')
+	charactersToRemove = config.charactersToRemove.split(''),
+	users = []
 
 var twitterParameters = 
 {
+	// trim_user: true,
 	exclude_replies: true,
 	include_rts: false,
 	count: 200 
 }
 
+config.users.forEach(function(screen_name)
+{
+	var user = {}
+	user.screen_name = screen_name.toLowerCase() // we lowercase it just in case
+	users.push(user)
+})
+
 // RUN!
-var usersCount = 0
-getNextUserTweets()
+var usersCount = 0,
+	tweetsCount = 0
+
+getNextBatchOfTweets()
 
 // FUNCTIONS
 
-function getNextUserTweets()
+function getNextBatchOfTweets()
 {
-	if (usersCount < config.users.length)
+	if (usersCount < users.length)
 	{
-		var user = config.users[usersCount]
-		console.log('fetching ' + user)
-		twitterParameters.screen_name = user
+		var user = users[usersCount]
+		console.log('├ Fetching ' + user.screen_name)
+		twitterParameters.screen_name = user.screen_name
+		if (user.max_id) twitterParameters.max_id = user.max_id
 		getUserTweets(twitterParameters, gotTweets)
 		usersCount ++
 	}
 	else
 	{
-		console.log('done, make the sentence(s)')
-		makeSentences()
+		console.log('├ Fetched ' + tweetsCount + ' so far')
+		if (tweetsCount < config.minimumTweetsToFetch)
+		{
+			usersCount = 0
+			getNextBatchOfTweets()
+		}
+		else
+		{
+			console.log('├ Done fetching, now tweet something!')
+			makeAndTweetSentences()
+		}
 	}	
 }
 
@@ -65,62 +88,80 @@ function getUserTweets(parameters, callback)
 function gotTweets(tweets)
 {
 	//console.log(tweets)
-	// console.log(tweets[0])
 	
+	// increment the total count (so we know how large our bank is)
+	tweetsCount += tweets.length
+	
+	// loop through individual tweets
 	tweets.forEach(function(tweet, index)
 	{
 		// ENTITIES
-		// console.log(tweet.entities)
-		if (tweet.entities.hashtags)
-		{
-			tweet.entities.hashtags.forEach(function(hashtag, key)
+			// console.log(tweet.entities)
+			if (tweet.entities.hashtags)
 			{
-				bank.hashtags = _(bank.hashtags.concat(hashtag.text)).unique()
-			})	
-		}
-		if (tweet.entities.user_mentions)
-		{
-			tweet.entities.user_mentions.forEach(function(user_mention, key)
+				tweet.entities.hashtags.forEach(function(hashtag, key)
+				{
+					bank.hashtags = _(bank.hashtags.concat(hashtag.text)).unique()
+				})	
+			}
+			if (tweet.entities.user_mentions)
 			{
-				bank.user_mentions = _(bank.user_mentions.concat(user_mention.screen_name)).unique()
-			})	
-		}
-		if (tweet.entities.urls)
-		{
-			tweet.entities.urls.forEach(function(url, key)
+				tweet.entities.user_mentions.forEach(function(user_mention, key)
+				{
+					bank.user_mentions = _(bank.user_mentions.concat(user_mention.screen_name)).unique()
+				})	
+			}
+			if (tweet.entities.urls)
 			{
-				bank.urls = _(bank.urls.concat(url.expanded_url)).unique()
-			})	
-		}
-		if (tweet.entities.media)
-		{
-			tweet.entities.media.forEach(function(media, key)
+				tweet.entities.urls.forEach(function(url, key)
+				{
+					bank.urls = _(bank.urls.concat(url.expanded_url)).unique()
+				})	
+			}
+			if (tweet.entities.media)
 			{
-				bank.media = _(bank.media.concat(media.media_url)).unique()
-			})	
-		}
+				tweet.entities.media.forEach(function(media, key)
+				{
+					bank.media = _(bank.media.concat(media.media_url)).unique()
+				})	
+			}
 
 		// TEXT
-		// console.log(tweet.text)
+			// console.log(tweet.text)
 
-		var text = tweet.text  
-		// a bit of sanitation
-		text = _(text).unescape() // see http://underscorejs.org/#unescape 
-		text = removeUrls(text)
-		text = removeCharacters(text)
-		
-		chain.parse(text)
+			var text = tweet.text  
+			// a bit of sanitation
+			text = _(text).unescape() // see http://underscorejs.org/#unescape 
+			text = removeUrls(text)
+			text = removeCharacters(text)
+			
+			chain.parse(text)
 
-		wordpos.getPOS(text, function(results)
-		{
-			_(results).each(function(array, key)
+			wordpos.getPOS(text, function(results)
 			{
-				// console.log(key, array)
-				bank[key] = _(bank[key].concat(array)).unique()
+				_(results).each(function(array, key)
+				{
+					// console.log(key, array)
+					bank[key] = _(bank[key].concat(array)).unique()
+				})
+
+				// if (index == tweets.length -1) getNextBatchOfTweets()
 			})
 
-			if (index == tweets.length -1) getNextUserTweets()
-		})
+		// if this is the last tweet...	
+		if (index == tweets.length -1)
+		{
+			var screen_name = tweet.user.screen_name.toLowerCase(),
+				user = _(users).findWhere({screen_name: screen_name})
+
+			if (user) 
+			{
+				user.max_id = tweet.id_str // we'll get tweets from this user that are older than this last tweet's id
+				user.statuses_count = tweet.user.statuses_count // we may also need to know how many times this user has tweeted
+			}
+
+			getNextBatchOfTweets()
+		}
 	})
 }	
 
@@ -139,41 +180,55 @@ function removeCharacters(string)
 	return string
 }
 
-function makeSentences()
+function makeAndTweetSentences()
+{
+	var count = 0
+	while (count < config.howManySentences)
+	{
+		var sentence = makeSentence()
+		if (isTweetable(sentence))
+		{
+			console.log('├ → ' + sentence)
+			// only tweet if we're not in testMode
+			if (!config.testMode) makeTweet(sentence) 
+			count ++
+		}
+	}
+}
+
+function makeSentence()
 {
 	// we want unique
 	var nouns = _(bank.nouns).difference(bank.adjectives, bank.verbs)
 	var adjectives = _(bank.adjectives).difference(bank.nouns, bank.verbs)
 	var verbs = _(bank.verbs).difference(bank.adjectives, bank.nouns)
 
-	// console.log(bank)
-	// console.log(nouns)
-	// console.log(adjectives)
+	var sentence = 'We ' // each sentence starts with "We "
 
-	for (var i = 0; i < config.howManySentences; i++) 
+	var dont = Math.round(Math.random()*2) == 0 // 1 in 3 sentences should continue with "don't"
+	if (dont) sentence += "don't "
+
+	var markovify = Math.round(Math.random()) == 0 // 1 in 2 sentences should be a Markov chain
+
+	if (markovify)
 	{
-		var sentence = 'We ' 
-		var dont = Math.round(Math.random()*2) == 0 // 1 in 3 should be "don't"
-		if (dont) sentence += "don't "
-
-		if (i % 2 == 0)
-		{
-			sentence += chain.start(getRandomElement(verbs).toLowerCase()).end().process() // + ' [Markov]'
-		}
-		else
-		{
-			sentence += getRandomElement(verbs).toLowerCase() + ' ' 
-						+ getRandomElement(adjectives).toLowerCase() + ' ' 
-						+ getRandomElement(nouns) 
-						+ ' #' + getRandomElement(bank.hashtags)
-		}
-		
-		if (isTweetable(sentence))
-		{
-			console.log('- ' + sentence)
-			makeTweet(sentence)
-		}
+		sentence += chain.start(getRandomElement(verbs).toLowerCase()).end().process()
 	}
+	else
+	{
+		var verb = getRandomElement(verbs).toLowerCase(),
+			adjective = getRandomElement(adjectives).toLowerCase(),
+			noun = getRandomElement(nouns),
+			hashtag = '#' + getRandomElement(bank.hashtags)
+
+		// if the noun is singular and not capitalised, then pluralise it :)
+		if (!isPlural(noun) && !isCapitalCase(noun)) noun = plur(noun, 2) 
+
+		// ...and string the sentence together
+		sentence += verb + ' ' + adjective + ' ' + noun + ' ' + hashtag
+	}
+
+	return sentence
 }
 
 function isTweetable(text)
@@ -190,13 +245,18 @@ function makeTweet(text)
 		if (error) console.error(error)
 		else
 		{
-			console.log('DONE! ' + tweet.text) 
+			console.log('├ DONE! ' + tweet.text) 
 			// console.log(response)
 		}	
 	})
 }
 
-function getRandomElement (array) 
+function isCapitalCase(word)
+{
+	return (word[0] === word[0].toUpperCase())
+}
+
+function getRandomElement(array) 
 {
 	var randomIndex = Math.floor(array.length * Math.random())
 	return array[randomIndex]
